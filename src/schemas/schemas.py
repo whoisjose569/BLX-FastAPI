@@ -24,8 +24,8 @@ class Produto(BaseModel):
 
 class Pedido(BaseModel):
     id : Optional[str] = None
-    usuario: Usuario
-    Produto: Produto
+    # usuario: Usuario
+    # Produto: Produto
     quantidade: int
     entrega: bool = True
     endereco: str

@@ -18,3 +18,13 @@ class Usuario(Base):
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String)
     telefone = Column(String)
+
+class Pedido(Base):
+    
+    __tablename__ = 'pedido'
+    
+    id = Column(Integer, primary_key=True, index=True)
+    quantidade = Column(Integer)
+    entrega = Column(Boolean)
+    endereco = Column(String)
+    observacoes = Column(String)
