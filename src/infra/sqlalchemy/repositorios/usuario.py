@@ -9,7 +9,7 @@ class RepositorioUsuario():
         self.db = db
     
     def criar(self, usuario: schemas.Usuario):
-        db_usuario = models.Usuario(nome=usuario.nome, telefone=usuario.telefone)
+        db_usuario = models.Usuario(nome=usuario.nome, telefone=usuario.telefone, senha=usuario.senha)
         
         self.db.add(db_usuario)
         self.db.commit()
