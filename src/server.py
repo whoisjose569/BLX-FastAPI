@@ -25,9 +25,10 @@ def listar_produtos(db: Session = Depends(get_db)):
     return produtos
 
 #Atualizar Produto
-@app.put('/produtos')
-def atualizar_produto(produto: schemas.Produto, db: Session = Depends(get_db)):
-    RepositorioProduto(db).editar(produto)
+@app.put('/produtos/{id}', response_model=List[ProdutoSimples])
+def atualizar_produto(id: int, produto: schemas.Produto, db: Session = Depends(get_db)):
+    RepositorioProduto(db).editar(id, produto)
+    produto.id = id
     return produto
 
 #Remover Produto
@@ -38,14 +39,14 @@ def remover_produto(id: int, db: Session = Depends(get_db)):
     
 
 #Criar Usuario
-@app.post('/usuarios', status_code=201)
+@app.post('/signup', status_code=201)
 def criar_usuario(usuario: schemas.Usuario, db: Session = Depends(get_db)):
     usuario_criado = RepositorioUsuario(db).criar(usuario)
     return usuario_criado
 
 #Listar Usuarios
-@app.get('/usuarios')
-def listar_usuarios(db: Session = Depends(get_db)):
+@app.get('/usuarios', response_model=List[schemas.Usuario])
+def signup(db: Session = Depends(get_db)):
     usuarios = RepositorioUsuario(db).listar()
     return usuarios
 

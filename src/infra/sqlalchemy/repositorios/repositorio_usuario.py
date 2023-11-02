@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from src.schemas import schemas
 from src.infra.sqlalchemy.models import models
+from sqlalchemy import select
 
 
 class RepositorioUsuario():
