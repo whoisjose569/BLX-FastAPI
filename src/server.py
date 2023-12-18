@@ -1,5 +1,6 @@
 from typing import List
 from fastapi import FastAPI, Depends, status
+from fastapi.middleware.cors import CORSMiddleware
 from src.schemas import schemas
 from sqlalchemy.orm import Session
 from src.infra.sqlalchemy.config.database import get_db, criar_bd
@@ -11,6 +12,17 @@ from src.infra.sqlalchemy.repositorios.repositorio_usuario import RepositorioUsu
 #criar_bd()
 
 app = FastAPI()
+
+# Cors
+origins = ["http://localhost:8000"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 #Criar Produto
 @app.post('/produtos', status_code=201, response_model=ProdutoSimples)
