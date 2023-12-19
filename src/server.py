@@ -12,7 +12,7 @@ from src.routers import rotas_produtos, rotas_usuarios
 app = FastAPI()
 
 # Cors
-origins = ["http://localhost:8000"]
+origins = ["http://localhost:8000", "127.0.0.1:8000"]
 
 app.add_middleware(
     CORSMiddleware,

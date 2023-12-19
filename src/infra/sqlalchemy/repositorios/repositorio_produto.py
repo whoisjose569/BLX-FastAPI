@@ -1,7 +1,8 @@
-from sqlalchemy import update, delete
+from sqlalchemy import update, delete, select
 from sqlalchemy.orm import Session
 from src.schemas import schemas
 from src.infra.sqlalchemy.models import models
+from sqlalchemy.sql.expression import select
 
 class RepositorioProduto():
     
@@ -31,3 +32,8 @@ class RepositorioProduto():
         delete_smtm = delete(models.Produto).where(models.Produto.id == id)
         self.db.execute(delete_smtm)
         self.db.commit()
+    
+    def buscarPorID(self, id: int):
+        query = select(models.Produto).where(models.Produto.id == id)
+        produto = self.db.execute(query).scalars().first()
+        return produto

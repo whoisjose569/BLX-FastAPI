@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Depends
+from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.orm import Session
 from src.schemas import schemas
 from src.schemas.schemas import Produto, ProdutoSimples
@@ -32,4 +32,11 @@ def atualizar_produto(id: int, produto: schemas.Produto, db: Session = Depends(g
 def remover_produto(id: int, db: Session = Depends(get_db)):
     RepositorioProduto(db).remover(id)
     return
-    
+
+# Buscar por ID
+@router.get('/produtos/{id}')
+def exibir_produto(id: int, db: Session = Depends(get_db) ):
+    produto_localizado = RepositorioProduto(db).buscarPorID(id)
+    if not produto_localizado:
+        raise HTTPException(status_code=404, detail= "Produto nao Localizado")
+    return produto_localizado
