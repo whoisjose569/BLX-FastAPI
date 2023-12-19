@@ -5,7 +5,7 @@ from src.schemas import schemas
 from sqlalchemy.orm import Session
 from src.infra.sqlalchemy.config.database import get_db
 from src.infra.sqlalchemy.repositorios.repositorio_pedido import RepositorioPedido
-from src.routers import rotas_produtos, rotas_usuarios
+from src.routers import rotas_produtos, rotas_usuarios, rotas_pedidos
 
 #criar_bd()
 
@@ -25,19 +25,10 @@ app.add_middleware(
 # Rotas PRODUTOS
 app.include_router(rotas_produtos.router)
 
-# RITAS USUARIOS
+# ROTAS USUARIOS
 app.include_router(rotas_usuarios.router)
 
+# Rotas PEDIDOS
+app.include_router(rotas_pedidos.router)
 
-#Criar Pedido
-@app.post('/pedidos', status_code=201)
-def criar_pedido(pedido: schemas.Pedido, db: Session = Depends(get_db)):
-    pedido_criado = RepositorioPedido(db).criar(pedido)
-    return pedido_criado
-
-#Listar Pedidos
-@app.get('/pedidos')
-def listar_pedidos(db: Session = Depends(get_db)):
-    pedidos = RepositorioPedido(db).listar()
-    return pedidos
 

@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from src.schemas import schemas
 from src.infra.sqlalchemy.models import models
+from sqlalchemy import update, delete, select
+from typing import List
 
 class RepositorioPedido():
     
@@ -8,20 +10,26 @@ class RepositorioPedido():
         self.db = db
     
     def criar(self, pedido: schemas.Pedido):
-        db_pedido = models.Pedido(quantidade=pedido.quantidade, entrega=pedido.entrega, endereco=pedido.endereco, observacoes= pedido.observacoes)
+        db_pedido = models.Pedido(quantidade=pedido.quantidade, local_entrega=pedido.local_entrega, tipo_entrega = pedido.tipo_entrega, observacoes= pedido.observacoes, usuario_id = pedido.usuario_id, produto_id = pedido.produto_id)
         
         self.db.add(db_pedido)
         self.db.commit()
         self.db.refresh(db_pedido)
         return db_pedido
     
-    def listar(self):
+    def listar_pedidos(self):
         pedido = self.db.query(models.Pedido).all()
         return pedido
         
     
-    def obter(self):
+    def buscarPorId(self, id: int):
+        query = select(models.Pedido).where(models.Pedido.id == id)
+        pedido = self.db.execute(query).scalars().first()
+        return pedido
+    
+
+    def listar_meus_pedidos_por_id(self, id: int):
         pass
     
-    def remover(self):
+    def listar_minhas_vendas_por_id(self, id: int):
         pass

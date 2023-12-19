@@ -35,8 +35,8 @@ class Pedido(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     quantidade = Column(Integer)
-    entrega = Column(Boolean)
-    endereco = Column(String)
+    local_entrega = Column(String)
+    tipo_entrega = Column(String)
     observacoes = Column(String)
     
     usuario_id = Column(Integer, ForeignKey(

@@ -38,5 +38,5 @@ def remover_produto(id: int, db: Session = Depends(get_db)):
 def exibir_produto(id: int, db: Session = Depends(get_db) ):
     produto_localizado = RepositorioProduto(db).buscarPorID(id)
     if not produto_localizado:
-        raise HTTPException(status_code=404, detail= "Produto nao Localizado")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= "Produto nao Localizado")
     return produto_localizado
