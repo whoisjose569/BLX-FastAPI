@@ -29,7 +29,11 @@ class RepositorioPedido():
     
 
     def listar_meus_pedidos_por_id(self, id: int):
-        pass
+        query = select(models.Pedido).where(models.Pedido.usuario_id == id)
+        resultado = self.db.execute(query).scalars().all()
+        return resultado
     
     def listar_minhas_vendas_por_id(self, id: int):
-        pass
+        query = select(models.Pedido).join_from(models.Pedido, models.Produto).where(models.Produto.usuario_id == id)
+        resultado = self.db.execute(query).scalars().all()
+        return resultado

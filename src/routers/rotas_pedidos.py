@@ -16,9 +16,9 @@ def criar_pedido(pedido: schemas.Pedido, db: Session = Depends(get_db)):
     return pedido_criado
 
 #Listar Pedidos
-@router.get('/pedidos')
+@router.get('/pedidos', response_model=List[schemas.Pedido])
 def listar_pedidos(db: Session = Depends(get_db)):
-    pedidos = RepositorioPedido(db).listar()
+    pedidos = RepositorioPedido(db).listar_pedidos()
     return pedidos
 
 #Buscar Pedido
@@ -29,12 +29,12 @@ def exibir_pedido_id(id: int, db : Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= "Pedido nao Localizado")
     return pedido_localizado
 
-# @router.get('/pedidos/{usuario_id}', response_model=List[schemas.Pedido])
-# def listar_pedidos_id(usuario_id: int, db: Session = Depends(get_db)):
-#     pedidos = RepositorioPedido(db).listar_meus_pedidos_por_id(usuario_id)
-#     return pedidos
+@router.get('/pedidos/{usuario_id}/compras')
+def listar_pedidos_id(usuario_id: int, db: Session = Depends(get_db)):
+    pedidos = RepositorioPedido(db).listar_meus_pedidos_por_id(usuario_id)
+    return pedidos
 
-# @router.get('/pedidos/{usuario_id}/vendas', response_model=List[schemas.Pedido])
-# def listar_vendas_id(usuario_id: int, db: Session = Depends(get_db)):
-#     pedidos = RepositorioPedido(db).listar_minhas_vendas_por_id(usuario_id)
-#     return pedidos
+@router.get('/pedidos/{usuario_id}/vendas', response_model=List[schemas.Pedido])
+def listar_vendas_id(usuario_id: int, db: Session = Depends(get_db)):
+    pedidos = RepositorioPedido(db).listar_minhas_vendas_por_id(usuario_id)
+    return pedidos
