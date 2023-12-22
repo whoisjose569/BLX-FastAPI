@@ -1,5 +1,6 @@
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.orm import Session
+from src.routers.auth_utils import obter_usuario_logado
 from src.schemas import schemas
 from src.schemas.schemas import Produto, ProdutoSimples
 from src.infra.sqlalchemy.repositorios.repositorio_pedido import RepositorioPedido
@@ -17,12 +18,12 @@ def criar_pedido(pedido: schemas.Pedido, db: Session = Depends(get_db)):
 
 #Listar Pedidos
 @router.get('/pedidos', response_model=List[schemas.Pedido])
-def listar_pedidos(db: Session = Depends(get_db)):
-    pedidos = RepositorioPedido(db).listar_pedidos()
+def listar_pedidos(usuario: schemas.Usuario = Depends(obter_usuario_logado) ,db: Session = Depends(get_db)):
+    pedidos = RepositorioPedido(db).listar_meus_pedidos_por_id(usuario.id)
     return pedidos
 
 #Buscar Pedido
-@router.get('/pedidos/{id}')
+@router.get('/pedidos/')
 def exibir_pedido_id(id: int, db : Session = Depends(get_db)):
     pedido_localizado = RepositorioPedido(db).buscarPorId(id)
     if not pedido_localizado:
